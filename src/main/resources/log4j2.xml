@@ -1,22 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="30">
+
     <Properties>
         <Property name="LOG_PATTERN">
             %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} [MYLOGGER] --- [%15.15t] %-40.40c{1.} : %m%n%ex
         </Property>
+        
+        <Property name="APP_LOG_ROOT">c:/temp</Property>
+        
     </Properties>
+    
     <Appenders>
+    
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+        <!-- <Console name="ConsoleAppender" target="SYSTEM_OUT"> -->
             <PatternLayout pattern="${LOG_PATTERN}"/>
-        </Console>
+        </Console>        
+        
+        <RollingFile name="fileLogger" fileName="app-info.log" filePattern="app-info-%d{yyyy-MM-dd}.log">
+        	<!-- <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/> -->
+            <Filters>
+	            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+                <TimeBasedTriggeringPolicy interval="1" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>     
+           
     </Appenders>
+    
+    <!-- need to add the appenders to the logger to use the logging mechanism -->
     <Loggers>
         <Logger name="com.example.log4j2demo" level="debug" additivity="false">
             <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="fileLogger" />
         </Logger>
 
         <Root level="info">
             <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="fileLogger" />
         </Root>
     </Loggers>
 </Configuration>

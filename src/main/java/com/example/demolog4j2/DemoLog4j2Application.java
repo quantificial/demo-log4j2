@@ -26,3 +26,4 @@ public class DemoLog4j2Application implements ApplicationRunner {
 
 }
 
+ 
