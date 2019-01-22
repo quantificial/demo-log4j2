@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="30">
 
+	<!-- define basic properties -->
     <Properties>
         <Property name="LOG_PATTERN">
-            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} [MYLOGGER] --- [%15.15t] %-40.40c{1.} : %m%n%ex
-        </Property>
-        
-        <Property name="APP_LOG_ROOT">c:/temp</Property>
-        
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} [LOG] --- [%15.15t] %-40.40c{1.} : %m%n%ex
+        </Property>        
+        <Property name="APP_LOG_ROOT">c:/temp</Property>        
     </Properties>
     
-    <Appenders>
-    
-        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
-        <!-- <Console name="ConsoleAppender" target="SYSTEM_OUT"> -->
+    <!-- define the appenders -->
+    <Appenders>    
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">        
             <PatternLayout pattern="${LOG_PATTERN}"/>
-        </Console>        
-        
-        <RollingFile name="fileLogger" fileName="app-info.log" filePattern="app-info-%d{yyyy-MM-dd}.log">
-        	<!-- <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/> -->
+        </Console>                
+        <RollingFile name="fileLogger" fileName="app-info.log" filePattern="app-info-%d{yyyy-MM-dd}.log">        	
             <Filters>
 	            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
             </Filters>
@@ -28,11 +24,10 @@
                 <TimeBasedTriggeringPolicy interval="1" />
             </Policies>
             <DefaultRolloverStrategy max="10"/>
-        </RollingFile>     
-           
+        </RollingFile>                
     </Appenders>
     
-    <!-- need to add the appenders to the logger to use the logging mechanism -->
+    <!-- need to add the appenders to the logger to specify the logging mechanism -->
     <Loggers>
         <Logger name="com.example.log4j2demo" level="debug" additivity="false">
             <AppenderRef ref="ConsoleAppender" />
